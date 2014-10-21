@@ -6,8 +6,8 @@ var xiongjiApp = angular.module('xiongjiApp', [
   'ngRoute',
 
   'xiongjiControllers',
-
   'directivesModule',
+  'xiongjiAnimations'
 
 
   ]);
