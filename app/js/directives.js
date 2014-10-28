@@ -8,7 +8,7 @@ xiongjiDirectives.directive('lineChart', ['$log', function($log) {
 
   return {
     restrict: 'AE',
-    scope: { results: '=' },
+    scope: { results: '=outerresults' },
     templateUrl: 'partials/linechart.html',
     link: function(scope, element, attrs) {
       $log.log("link function called");
@@ -37,4 +37,13 @@ xiongjiDirectives.directive('lineChart', ['$log', function($log) {
       
     }
   };
+}]).
+directive('zwlCarousel', ['$log', function($log) {
+  return{
+    restrict: 'E',
+    scope: {},
+    templateUrl: 'partials/my-carousel.html',
+    nil: console.log('test')
+  };
+
 }]);

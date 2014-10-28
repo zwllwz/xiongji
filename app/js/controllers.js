@@ -2,11 +2,10 @@
 
 /* Controllers */
 
-var xiongjiControllers = angular.module('xiongjiControllers', ['xiongjiFilters']);
+var xiongjiControllers = angular.module('xiongjiControllers', ['xiongjiFilters', 'xiongjiServices']);
 
-xiongjiControllers.controller('chartCtrl', ['$scope', '$http','$log','$filter',
-  function($scope, $http, $log, $filter) {
-    //var url1 = "https://query.yahooapis.com/v1/public/yql?q=select%20*%20from%20csv%20where%20url%20%3D%20'http%3A%2F%2Fichart.finance.yahoo.com%2Ftable.csv%3Fs%3DAAPL'%20and%20columns%3D%22Date%2COpen%2CHigh%2CLow%2CClose%2CVolume%2CAdjClose%22&format=json&diagnostics=true&env=store%3A%2F%2Fdatatables.org%2Falltableswithkeys&callback=JSON_CALLBACK";
+xiongjiControllers.controller('chartCtrl', ['$scope','$http', '$log','$filter','ajaxFactory',
+  function($scope, $http, $log, $filter, ajaxFactory) {
 
     $scope.stock = {};
     $scope.stock.date = 0;
@@ -21,18 +20,22 @@ xiongjiControllers.controller('chartCtrl', ['$scope', '$http','$log','$filter',
     }
 
     $scope.search = function(name) {
-      var prefix = "https://query.yahooapis.com/v1/public/yql?q=select%20*%20from%20csv%20where%20url%20%3D%20'http%3A%2F%2Fichart.finance.yahoo.com%2Ftable.csv%3Fs%3D";
-      var suffix = "'%20and%20columns%3D%22Date%2COpen%2CHigh%2CLow%2CClose%2CVolume%2CAdjClose%22&format=json&diagnostics=true&env=store%3A%2F%2Fdatatables.org%2Falltableswithkeys&callback=JSON_CALLBACK";
-      var url = prefix + name + suffix;
-      $http.jsonp(url)
-       .success(function(data) {
+      //$log.log("ajax", ajaxFactory);
+      ajaxFactory.setStockName(name);
+      ajaxFactory.callStockHistory().then(function(data) {
         $scope.results = data.query.results.row;
         $scope.results.splice(0, 1);  // Delete first headline (column name) row
         $scope.results.splice(100);   // TODO(wenli): test first 100 only
 
         $scope.updateDisplay();
+      }, function(data) {
+        alert(data);
       });
+
     };
+
+  
+
 
     $scope.dateChange = function(date) {
       $log.log("scope.dateChange", date);

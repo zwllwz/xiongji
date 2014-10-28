@@ -1,10 +1,16 @@
 stock name: <input type="text" ng-model="stock.name" ></input>
 <button ng-click="search(stock.name)">submit stock history</button><br/>
 
-date<input type="range" ng-mouseup="dateChange(stock.date)" ng-model="stock.date" value="{{stock.date}}" min="0" max="100" step="1" style="width: 250px" >
+<label for="dateRange">DATE</label>
+<input id="dateRange" type="range" ng-mouseup="dateChange(stock.date)" ng-model="stock.date" value="{{stock.date}}" min="0" max="100" step="1" style="width: 250px" >
+
 <div>{{stock.date}}</div>
 <div ng-bind="stock.date"></div>
-<div line-chart results="resultsToDisplay"></div>
+<!-- <div line-chart results="resultsToDisplay"></div> -->
+<line-chart outerresults="resultsToDisplay"></line-chart>
+
+
+<zwl-carousel></zwl-carousel>
 
 
 
